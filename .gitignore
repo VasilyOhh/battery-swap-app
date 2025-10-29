@@ -1,0 +1,42 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+mvnw
+mvnw.cmd
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+logs/
+**/hs_err_pid*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Binaries / archives
+*.jar
+*.war
+*.ear
+*.zip
+*.7z
+*.tar
+*.gz
+
+# Local env & secrets
+application.properties
+application-local.properties
+.env
+*.bak
+*.db
+*.sqlite
+
+# Node (nếu có UI kèm)
+/node_modules/
+dist/
