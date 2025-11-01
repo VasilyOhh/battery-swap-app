@@ -1,8 +1,11 @@
 package com.evswap.evswapstation.controller;
 
+import com.evswap.evswapstation.entity.PasswordResetToken;
 import com.evswap.evswapstation.entity.User;
 import com.evswap.evswapstation.enums.Role;
+import com.evswap.evswapstation.repository.PasswordResetTokenRepository;
 import com.evswap.evswapstation.repository.UserRepository;
+import com.evswap.evswapstation.service.EmailService;
 import com.evswap.evswapstation.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,6 +28,16 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private PasswordResetTokenRepository tokenRepo;
+
+    @Autowired
+    private EmailService emailService;
+
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
