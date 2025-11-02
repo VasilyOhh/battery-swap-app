@@ -37,7 +37,9 @@ public class SecurityConfig {
                                 "/api/stations/nearby",
                                 "/api/auth/forgot-password",
                                 "/api/auth/reset-password",
-                                "/api/auth/validate-reset-token"
+                                "/api/auth/validate-reset-token",
+                                "/oauth2/**",
+                                "/login/**"
                         ).permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS
                         .anyRequest().authenticated()

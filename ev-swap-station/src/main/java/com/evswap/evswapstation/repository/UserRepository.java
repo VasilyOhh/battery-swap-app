@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     
     // Lấy tất cả user với email để debug
     List<User> findAllByEmail(String email);
+
+    Optional<User> findByGoogleId(String googleId);
     
     boolean existsByUserName(String userName);
     boolean existsByEmail(String email);

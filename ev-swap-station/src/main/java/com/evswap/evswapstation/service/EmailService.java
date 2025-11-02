@@ -31,7 +31,7 @@ public class EmailService {
 
             helper.setFrom(fromEmail);
             helper.setTo(recipientEmail);
-            helper.setSubject("Yêu cầu đặt lại mật khẩu - EVSwap Station");
+            helper.setSubject("Password reset request - EVSwap");
 
             String resetUrl = frontendUrl + "/reset-password?token=" + token;
 
@@ -56,9 +56,10 @@ public class EmailService {
                 "<style>" +
                 "body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }" +
                 ".container { max-width: 600px; margin: 0 auto; padding: 20px; }" +
-                ".header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }" +
+                ".header { background: #7241CE; color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }" +
                 ".content { background: #f9f9f9; padding: 30px; }" +
-                ".button { display: inline-block; padding: 15px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }" +
+                ".button { display: inline-block; padding: 15px 30px; background: #A2F200; color: black; text-decoration: none; border-radius: 5px; margin: 20px 0; }" +
+                ".button a { color: black; text-decoration: none; }" +  // thêm dòng này
                 ".footer { background: #333; color: #fff; padding: 20px; text-align: center; font-size: 12px; border-radius: 0 0 10px 10px; }" +
                 ".warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }" +
                 "</style>" +
@@ -66,29 +67,27 @@ public class EmailService {
                 "<body>" +
                 "<div class='container'>" +
                 "<div class='header'>" +
-                "<h1>🔐 Đặt lại mật khẩu</h1>" +
+                "<h1>Reset Password</h1>" +
                 "</div>" +
                 "<div class='content'>" +
-                "<p>Xin chào <strong>" + userName + "</strong>,</p>" +
-                "<p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản EVSwap Station của bạn.</p>" +
-                "<p>Vui lòng click vào nút bên dưới để đặt lại mật khẩu:</p>" +
+                "<p>Hello <strong>" + userName + "</strong>,</p>" +
+                "<p>We have received a request to reset the password for your EVSwap Station account.</p>" +
+                "<p>Please click the button below to reset your password:</p>" +
                 "<div style='text-align: center;'>" +
-                "<a href='" + resetUrl + "' class='button'>Đặt lại mật khẩu</a>" +
+                "<a href='" + resetUrl + "' class='button'>Reset Password</a>" +
                 "</div>" +
-                "<p>Hoặc copy link sau vào trình duyệt:</p>" +
-                "<p style='background: #e9ecef; padding: 10px; word-break: break-all; font-size: 12px;'>" + resetUrl + "</p>" +
                 "<div class='warning'>" +
-                "<strong>⚠️ Lưu ý quan trọng:</strong>" +
+                "<strong>Important Notice:</strong>" +
                 "<ul>" +
-                "<li>Link này sẽ hết hạn sau <strong>15 phút</strong></li>" +
-                "<li>Link chỉ có thể sử dụng <strong>một lần</strong></li>" +
-                "<li>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này</li>" +
+                "<li>This link will expire after <strong>15 minutes.</strong></li>" +
+                "<li>The link can only be used <strong>once.</strong></li>" +
+                "<li>If you did not request a password reset, please ignore this email.</li>" +
                 "</ul>" +
                 "</div>" +
                 "</div>" +
                 "<div class='footer'>" +
-                "<p>&copy; 2024 EVSwap Station. All rights reserved.</p>" +
-                "<p>Email này được gửi tự động, vui lòng không trả lời.</p>" +
+                "<p>&copy; 2025 EVSwap. All rights reserved.</p>" +
+                "<p>This email is sent automatically, please do not reply.</p>" +
                 "</div>" +
                 "</div>" +
                 "</body>" +

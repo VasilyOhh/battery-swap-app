@@ -6,6 +6,7 @@ import com.evswap.evswapstation.enums.Role;
 import com.evswap.evswapstation.repository.PasswordResetTokenRepository;
 import com.evswap.evswapstation.repository.UserRepository;
 import com.evswap.evswapstation.service.EmailService;
+import com.evswap.evswapstation.service.GoogleAuthService;
 import com.evswap.evswapstation.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private GoogleAuthService googleAuthService;
 
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -155,5 +159,76 @@ public class AuthController {
         response.put("fullName", user.getFullName());
 
         return ResponseEntity.ok(response);
+    }
+
+    // ✅ Đăng nhập bằng Google
+    @PostMapping("/google")
+    public ResponseEntity<?> googleAuth(@RequestBody Map<String, String> request) {
+        try {
+            String googleToken = request.get("token");
+            if (googleToken == null || googleToken.isEmpty()) {
+                return ResponseEntity.badRequest().body("❌ Google token is required");
+            }
+
+            // Gọi service xác thực với Google
+            com.evswap.evswapstation.dto.AuthResponse response =
+                    googleAuthService.authenticateWithGoogle(googleToken);
+
+            // Format response giống với login thường
+            Map<String, Object> result = new HashMap<>();
+            result.put("token", response.getToken());
+            result.put("role", response.getUser().getRole());
+            result.put("username", response.getUser().getUserName());
+            result.put("email", response.getUser().getEmail());
+            result.put("fullName", response.getUser().getFullName());
+            result.put("authProvider", response.getUser().getAuthProvider());
+
+            return ResponseEntity.ok(result);
+
+        } catch (Exception e) {
+            System.out.println("❌ Google auth failed: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("❌ Google authentication failed: " + e.getMessage());
+        }
+    }
+
+    // ✅ Lấy thông tin user hiện tại
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+
+            // Validate token
+            if (!jwtService.isTokenValid(token, null)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("❌ Invalid token");
+            }
+
+            // Extract username và tìm user
+            String username = jwtService.extractUsername(token);
+            Optional<User> userOpt = userRepository.findByUserName(username);
+
+            if (userOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("❌ User not found");
+            }
+
+            User user = userOpt.get();
+            Map<String, Object> response = new HashMap<>();
+            response.put("userID", user.getUserID());
+            response.put("username", user.getUserName());
+            response.put("email", user.getEmail());
+            response.put("fullName", user.getFullName());
+            response.put("role", user.getRole().name());
+            response.put("phone", user.getPhone());
+            response.put("address", user.getAddress());
+            response.put("authProvider", user.getAuthProvider());
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("❌ Invalid token: " + e.getMessage());
+        }
     }
 }
