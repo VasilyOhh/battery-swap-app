@@ -9,18 +9,17 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUserName(String userName);
-    
-    // Lấy user đầu tiên nếu có nhiều user với cùng email
+
     @Query("SELECT u FROM User u WHERE u.email = :email ORDER BY u.userID ASC")
     Optional<User> findByEmail(@Param("email") String email);
-    
-    // Lấy tất cả user với email để debug
-    List<User> findAllByEmail(String email);
 
+    List<User> findAllByEmail(String email);
     Optional<User> findByGoogleId(String googleId);
-    
+
     boolean existsByUserName(String userName);
     boolean existsByEmail(String email);
     Optional<User> findByUserNameOrEmail(String userName, String email);
 
+    // SỬA LẠI: Đổi từ findByUserId -> findByUserID và trả về User
+    Optional<User> findByUserID(Long userID);
 }

@@ -39,7 +39,17 @@ public class SecurityConfig {
                                 "/api/auth/reset-password",
                                 "/api/auth/validate-reset-token",
                                 "/oauth2/**",
-                                "/login/**"
+                                "/login/**",
+                                "/api/payment/**",
+                                "/api/vehicles/**",
+                                "/payment/**",
+                                "/api/packages/**",
+                                "/api/batteries/**",
+                                "/api/transactions/**",
+                                "/api/reports/**"
+
+
+
                         ).permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS
                         .anyRequest().authenticated()

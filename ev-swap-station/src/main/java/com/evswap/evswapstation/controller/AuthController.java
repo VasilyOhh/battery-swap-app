@@ -152,6 +152,7 @@ public class AuthController {
         // Tạo JWT token
         String token = jwtService.generateToken(user);
         Map<String, Object> response = new HashMap<>();
+        response.put("userId", user.getUserID());
         response.put("token", token);
         response.put("role", user.getRole().name());
         response.put("username", user.getUserName());
@@ -176,6 +177,7 @@ public class AuthController {
 
             // Format response giống với login thường
             Map<String, Object> result = new HashMap<>();
+            result.put("userId", response.getUser().getUserID());
             result.put("token", response.getToken());
             result.put("role", response.getUser().getRole());
             result.put("username", response.getUser().getUserName());

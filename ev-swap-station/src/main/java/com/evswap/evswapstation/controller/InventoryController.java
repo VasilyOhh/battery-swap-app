@@ -1,8 +1,10 @@
 package com.evswap.evswapstation.controller;
 
+import com.evswap.evswapstation.dto.InventoryStatusCountDTO;
 import com.evswap.evswapstation.entity.Inventory;
 import com.evswap.evswapstation.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +47,25 @@ public class InventoryController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         service.delete(id);
+    }
+
+    @Operation(summary = "Thống kê số lượng Inventory theo Status")
+    @GetMapping("/status-count")
+    public ResponseEntity<List<InventoryStatusCountDTO>> getStatusCount() {
+        List<InventoryStatusCountDTO> statistics = service.getStatusStatistics();
+        return ResponseEntity.ok(statistics);
+    }
+
+    /**
+     * GET /api/inventories/station/{stationId}/status-count
+     * Đếm số lượng inventory theo status của một station cụ thể
+     */
+    @Operation(summary = "Thống kê số lượng Inventory theo Status của một Station")
+    @GetMapping("/station/{stationId}/status-count")
+    public ResponseEntity<List<InventoryStatusCountDTO>> getStatusCountByStation(
+            @PathVariable Integer stationId) {
+        List<InventoryStatusCountDTO> statistics =
+                service.getStatusStatisticsByStation(stationId);
+        return ResponseEntity.ok(statistics);
     }
 }

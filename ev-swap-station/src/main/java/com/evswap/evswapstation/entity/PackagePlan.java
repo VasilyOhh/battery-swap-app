@@ -1,23 +1,22 @@
 package com.evswap.evswapstation.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "PackagePlans")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class PackagePlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer packageId;
 
-    private String planName;
-    private Double price;
-    private String duration; // "1 month", "6 months", "1 year"
+    private String packageName;
+
     private String description;
+
+    private Double price;
+
+    private Integer durationDays;
 }
